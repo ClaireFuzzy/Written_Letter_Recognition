@@ -1,0 +1,19 @@
+Index: Mnist_recognition.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import numpy as np\r\nimport pandas as pd\r\nimport matplotlib.pyplot as plt\r\nimport matplotlib.image as mping\r\nimport math\r\n\r\nfrom multilayer_perceptron import MultilayerPerceptron\r\n\r\ndata = pd.read_csv('../data/mnist-demo.csv')\r\nnumbers_to_display = 25\r\nnum_cells = math.ceil(math.sqrt(numbers_to_display))\r\nplt.figure(figsize=(10, 10))\r\nfor plot_index in range(numbers_to_display):\r\n    digit = data[plot_index:plot_index + 1].values\r\n    digit_label = digit[0][0]\r\n    digit_pixels = digit[0][1:]\r\n    image_size = int(math.sqrt(digit_pixels.shape[0]))\r\n    frame = digit_pixels.reshape((image_size, image_size))\r\n    plt.subplot(num_cells, num_cells, plot_index + 1)\r\n    plt.imshow(frame, cmap='Greys')\r\n    plt.title(digit_label)\r\nplt.subplots_adjust(wspace=0.5, hspace=0.5)\r\nplt.show()\r\n\r\ntrain_data = data.sample(frac=0.8)\r\ntest_data = data.drop(train_data.index)\r\n\r\ntrain_data = train_data.values\r\ntest_data = test_data.values\r\n\r\nnum_training_examples = 5000\r\n\r\nx_train = train_data[:num_training_examples, 1:]\r\ny_train = train_data[:num_training_examples, [0]]\r\n\r\nx_test = test_data[:, 1:]\r\ny_test = test_data[:, [0]]\r\n\r\nlayers = [784, 25, 10]\r\n\r\nnormalize_data = True\r\nmax_iterations = 500\r\nalpha = 0.1\r\n\r\nmultilayer_perceptron = MultilayerPerceptron(x_train, y_train, layers, normalize_data)\r\n(thetas, costs) = multilayer_perceptron.train(max_iterations, alpha)\r\nplt.plot(range(len(costs)), costs)\r\nplt.xlabel('Grident steps')\r\nplt.xlabel('costs')\r\nplt.show()\r\n\r\ny_train_predictions = multilayer_perceptron.predict(x_train)\r\ny_test_predictions = multilayer_perceptron.predict(x_test)\r\n\r\ntrain_p = np.sum(y_train_predictions == y_train) / y_train.shape[0] * 100\r\ntest_p = np.sum(y_test_predictions == y_test) / y_test.shape[0] * 100\r\nprint('训练集准确率：', train_p)\r\nprint('测试集准确率：', test_p)\r\n\r\nnumbers_to_display = 64\r\n\r\nnum_cells = math.ceil(math.sqrt(numbers_to_display))\r\n\r\nplt.figure(figsize=(15, 15))\r\n\r\nfor plot_index in range(numbers_to_display):\r\n    digit_label = y_test[plot_index, 0]\r\n    digit_pixels = x_test[plot_index, :]\r\n\r\n    predicted_label = y_test_predictions[plot_index][0]\r\n\r\n    image_size = int(math.sqrt(digit_pixels.shape[0]))\r\n\r\n    frame = digit_pixels.reshape((image_size, image_size))\r\n\r\n    color_map = 'Greens' if predicted_label == digit_label else 'Reds'\r\n    plt.subplot(num_cells, num_cells, plot_index + 1)\r\n    plt.imshow(frame, cmap=color_map)\r\n    plt.title(predicted_label)\r\n    plt.tick_params(axis='both', which='both', bottom=False, left=False, labelbottom=False, labelleft=False)\r\n\r\nplt.subplots_adjust(hspace=0.5, wspace=0.5)\r\nplt.show()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Mnist_recognition.py b/Mnist_recognition.py
+--- a/Mnist_recognition.py	(revision e136ea9d0f6241df9d7a63686b41bfc1df7eb716)
++++ b/Mnist_recognition.py	(date 1742569030876)
+@@ -39,7 +39,7 @@
+ layers = [784, 25, 10]
+ 
+ normalize_data = True
+-max_iterations = 500
++max_iterations = 1
+ alpha = 0.1
+ 
+ multilayer_perceptron = MultilayerPerceptron(x_train, y_train, layers, normalize_data)

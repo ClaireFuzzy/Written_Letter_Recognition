@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mping
 import math
 
-from multilayer_perceptron import MultilayerPerceptron
+from Neural_Network_Full_Process import MultilayerPerceptron
 
-data = pd.read_csv('../data/mnist-demo.csv')
+data = pd.read_csv('./data/mnist-demo.csv')
 numbers_to_display = 25
 num_cells = math.ceil(math.sqrt(numbers_to_display))
 plt.figure(figsize=(10, 10))
@@ -39,7 +39,7 @@ y_test = test_data[:, [0]]
 layers = [784, 25, 10]
 
 normalize_data = True
-max_iterations = 500
+max_iterations = 1
 alpha = 0.1
 
 multilayer_perceptron = MultilayerPerceptron(x_train, y_train, layers, normalize_data)
